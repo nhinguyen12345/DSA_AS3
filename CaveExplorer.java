@@ -1,6 +1,8 @@
 package DSA_AS3;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class CaveExplorer {
@@ -34,9 +36,64 @@ public class CaveExplorer {
         }
 
         return sb.toString(); // Return the constructed string
-    }//hguihjk
+    }
 	// Step 3: solve method
-	
+	public boolean solve() {
+		int rows = cave.length;
+		int cols = cave[0].length;
+
+		// Direction vectors (up, down, left, right)
+		int[] dRow = {-1, 1, 0, 0};
+		int[] dCol = {0, 0, -1, 1};
+
+		// Find starting position 'S'
+		int startRow = -1, startCol = -1;
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				if (cave[i][j] == 'S') {
+					startRow = i;
+					startCol = j;
+					break;
+				}
+			}
+		}
+
+		// Sanity check
+		if (startRow == -1 || startCol == -1) return false;
+
+		// ****** Visited tracker
+		boolean[][] visited = new boolean[rows][cols];
+
+		// BFS queue
+		Queue<int[]> queue = new LinkedList<>();
+		queue.add(new int[] {startRow, startCol});
+		visited[startRow][startCol] = true;
+
+		while (!queue.isEmpty()) {
+			int[] pos = queue.poll();
+			int row = pos[0], col = pos[1];
+
+			if (cave[row][col] == 'M') return true;
+
+			// Explore 4 directions
+			for (int i = 0; i < 4; i++) {
+				int newRow = row + dRow[i];
+				int newCol = col + dCol[i];
+
+				if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols
+					&& !visited[newRow][newCol]
+					&& (cave[newRow][newCol] == '.' || cave[newRow][newCol] == 'M')) {
+
+					visited[newRow][newCol] = true;
+					queue.add(new int[] {newRow, newCol});
+				}
+			}
+    }
+
+    return false; // M not found
+}
+
+
 	// Step 4: getPath method
 	
 	// Step 5: One parameter constructor to read from a file
