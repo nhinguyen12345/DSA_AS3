@@ -191,18 +191,42 @@ public class CaveExplorer {
 		System.out.println("Starting CaveExplorer");
 		
 		// Create a CaveExplorer object and print the starting layout
-		
+		CaveExplorer ce1 = new CaveExplorer();
+   		System.out.println("Cave 1 Starting Layout:");
+    	System.out.println(ce1.toString());
+
 		// Call solve
-		
+		boolean pathFound1 = ce1.solve();
+
 		// Print the final layout, whether there is a path, and if so, what it is.
-		
+		System.out.println("Cave 1 Final Layout:");
+    	System.out.println(ce1.toString());
+    	if (pathFound1) {
+        	System.out.println("Path to mirror: " + ce1.getPath());
+    	} else {
+        	System.out.println("No path to mirror pool found.");
+    	}
+
 		// Step 5/6: Repeat for a different CaveExplorer object read from a file
 		// Uncomment code below to start testing your 1-parameter constructor
 
-		/*
 		String fileName = "testdat.txt"; 
 		try { 
 			CaveExplorer ce2 = new CaveExplorer(fileName); 
+
+			System.out.println("Cave 2 Starting Layout:");
+			System.out.println(ce2.toString());
+
+			boolean pathFound2 = ce2.solve();
+
+			System.out.println("Cave 2 Final Layout:");
+			System.out.println(ce2.toString());
+
+			if (pathFound2) {
+				System.out.println("Path to mirror: " + ce2.getPath());
+			} else {
+				System.out.println("No path to mirror pool found.");
+			}
 		} 
 		catch (FileNotFoundException e ) {
 			System.out.println("Can't find file " + fileName); 
@@ -210,7 +234,8 @@ public class CaveExplorer {
 		catch (Exception e) {
 			System.out.println("Other error: " + e.getMessage());
 		}
-		*/
+
+
 		 
 
 		
