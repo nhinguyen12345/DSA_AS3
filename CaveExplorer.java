@@ -106,61 +106,7 @@ public class CaveExplorer {
 
 
 	// Step 4: getPath method
-	public String getPath() {
-		int rows = cave.length;
-		int cols = cave[0].length;
-
-		// Direction vectors
-		int[] dRow = {-1, 1, 0, 0}; // N, S, W, E
-		int[] dCol = {0, 0, -1, 1};
-		char[] dirChar = {'n', 's', 'w', 'e'};
-
-		// Find 'S' start position
-		int startRow = -1, startCol = -1;
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < cols; j++) {
-				if (cave[i][j] == 'S') {
-					startRow = i;
-					startCol = j;
-					break;
-				}
-			}
-		}
-		if (startRow == -1 || startCol == -1) return "";
-
-		// BFS queue: each element holds (row, col, pathString)
-		Queue<Node> queue = new LinkedList<>();
-		boolean[][] visited = new boolean[rows][cols];
-		visited[startRow][startCol] = true;
-		queue.add(new Node(startRow, startCol, ""));
-
-		while (!queue.isEmpty()) {
-			Node current = queue.poll();
-			int row = current.row;
-			int col = current.col;
-			String path = current.path;
-
-			if (cave[row][col] == 'M') {
-				return path; // Return path to the mirror pool
-			}
-
-			for (int i = 0; i < 4; i++) {
-				int newRow = row + dRow[i];
-				int newCol = col + dCol[i];
-
-				if (newRow >= 0 && newRow < rows &&
-					newCol >= 0 && newCol < cols &&
-					!visited[newRow][newCol] &&
-					(cave[newRow][newCol] == '.' || cave[newRow][newCol] == 'M')) {
-
-					visited[newRow][newCol] = true;
-					queue.add(new Node(newRow, newCol, path + dirChar[i]));
-				}
-			}
-		}
-
-		return ""; // No path to M
-}
+	
 
 	// Step 5: One parameter constructor to read from a file
 	
