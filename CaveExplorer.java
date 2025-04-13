@@ -121,8 +121,29 @@ public class CaveExplorer {
 
 	// Step 4: getPath method
 	public String getPath() {
+		if (endRow == -1 || endCol == -1) return ""; // No path found
 		
-}
+		StringBuilder path = new StringBuilder();
+		int row = endRow;
+		int col = endCol;
+		
+		while (parentRow[row][col] != -1 && parentCol[row][col] != -1) {
+			int prevRow = parentRow[row][col];
+			int prevCol = parentCol[row][col];
+		
+			if (prevRow == row - 1) path.append('s');
+			else if (prevRow == row + 1) path.append('n');
+			else if (prevCol == col - 1) path.append('e');
+			else if (prevCol == col + 1) path.append('w');
+		
+			row = prevRow;
+			col = prevCol;
+			}
+		
+			return path.reverse().toString();
+		}
+		
+
 
 	// Step 5: One parameter constructor to read from a file
 	
