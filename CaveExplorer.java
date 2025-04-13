@@ -53,7 +53,7 @@ public class CaveExplorer {
 	private int endRow = -1, endCol = -1; // Coordinates of 'M'
 
 	// Step 3: solve method
-	// Step 2-4: Extend solve method
+	// Step 2-4: Extend solve method (I had some trouble syncing to GH after step 2 so I had to reopen the file)
 	public boolean solve() {
 		int rows = cave.length;
 		int cols = cave[0].length;
