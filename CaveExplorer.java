@@ -11,8 +11,18 @@ import org.w3c.dom.Node;
 public class CaveExplorer {
 	// Step 1: Zero parameter constructor to create the specified cave
 	private char[][] cave;
+	
+    private int[][] parentRow; // Track the parent row
+    private int[][] parentCol; // Track the parent column
+
 //hihkbguhikscvb dsdefgdfgnbijnk
-    
+public CaveExplorer(char[][] caveLayout) {
+	this.cave = caveLayout;
+	this.parentRow = new int[cave.length][cave[0].length]; // Initialize parent tracking arrays
+	this.parentCol = new int[cave.length][cave[0].length]; // Initialize parent tracking arrays
+}
+
+
     public CaveExplorer() {
         
         cave = new char[5][6]; // 5 rows and 6 columns
@@ -24,17 +34,7 @@ public class CaveExplorer {
         cave[3] = new char[] {'R', '.', 'M', 'R', 'R', 'R'};
         cave[4] = new char[] {'R', 'R', 'R', 'R', 'R', 'R'};
     }
-	private static class Node {
-		int row, col;
-		String path;
 	
-		Node(int row, int col, String path) {
-			this.row = row;
-			this.col = col;
-			this.path = path;
-		}
-		
-	}
 	// Step 2: toString method
 	@Override
     public String toString() {
@@ -84,8 +84,7 @@ public class CaveExplorer {
 		Stack<int[]> stack = new Stack<>();
 		stack.push(new int[] {startRow, startCol});
 		visited[startRow][startCol] = true;
-		int[][] parentRow = new int[cave.length][cave[0].length];
-    	int[][] parentCol = new int[cave.length][cave[0].length];
+		
 		parentRow[startRow][startCol] = -1;
 		parentCol[startRow][startCol] = -1;
 		while (!stack.isEmpty()) {
@@ -122,7 +121,6 @@ public class CaveExplorer {
 	// Step 4: getPath method
 	public String getPath() {
 		if (endRow == -1 || endCol == -1) return ""; // No path found
-		
 		StringBuilder path = new StringBuilder();
 		int row = endRow;
 		int col = endCol;
@@ -171,58 +169,66 @@ public class CaveExplorer {
 
 	
 	public static void main(String[] args) {
-		System.out.println("Starting CaveExplorer");
-		
-		// Create a CaveExplorer object and print the starting layout
-		CaveExplorer ce1 = new CaveExplorer();
-   		System.out.println("Cave 1 Starting Layout:");
-    	System.out.println(ce1.toString());
+        // Define 4 test caves
+        char[][][] caves = {
+            // Test case 1: A simple cave layout
+            {
+                {'S', '.', '.', '#'},
+                {'#', '#', '.', '#'},
+                {'.', '.', '.', 'M'},
+                {'#', '#', '#', '#'}
+            },
+            // Test case 2: A more complex layout with obstacles
+            {
+                {'S', '.', '#', 'M'},
+                {'#', '.', '#', '#'},
+                {'#', '.', '.', '.'},
+                {'#', '#', '#', '#'}
+            },
+            // Test case 3: Cave layout requiring backtracking
+            {
+                {'#', 'S', '#', '#'},
+                {'#', '.', '.', '#'},
+                {'#', '#', '.', 'M'},
+                {'#', '#', '#', '#'}
+            },
+            // Test case 4: Another backtracking case
+            {
+                {'S', '.', '.', '#'},
+                {'#', '#', '.', '#'},
+                {'#', '.', '#', '#'},
+                {'#', '.', 'M', '#'}
+            }
+        };
 
-		// Call solve
-		boolean pathFound1 = ce1.solve();
+        // Iterate over all the test caves
+        for (int i = 0; i < caves.length; i++) {
+            System.out.println("=== Cave " + (i + 1) + " ===");
 
-		// Print the final layout, whether there is a path, and if so, what it is.
-		System.out.println("Cave 1 Final Layout:");
-    	System.out.println(ce1.toString());
-    	if (pathFound1) {
-        	System.out.println("Path to mirror: " + ce1.getPath());
-    	} else {
-        	System.out.println("No path to mirror pool found.");
-    	}
+            // Create a CaveExplorer object using the char[][] layout
+            CaveExplorer explorer = new CaveExplorer(caves[i]);
 
-		// Step 5/6: Repeat for a different CaveExplorer object read from a file
-		// Uncomment code below to start testing your 1-parameter constructor
+            // Print the starting layout
+            System.out.println("Start layout:");
+            System.out.println(explorer.toString());  // Use the toString() method for printing the cave layout
 
-		String fileName = "testdat.txt"; 
-		try { 
-			CaveExplorer ce2 = new CaveExplorer(fileName); 
+            // Solve and get the path
+            boolean foundPath = explorer.solve();
 
-			System.out.println("Cave 2 Starting Layout:");
-			System.out.println(ce2.toString());
+            // Print the final layout after solving
+            System.out.println("Final layout:");
+            System.out.println(explorer.toString());
 
-			boolean pathFound2 = ce2.solve();
+            // Print the path if found
+            if (foundPath) {
+                System.out.println("Path to mirror pool: " + explorer.getPath());
+            } else {
+                System.out.println("No path to mirror pool.");
+            }
 
-			System.out.println("Cave 2 Final Layout:");
-			System.out.println(ce2.toString());
-
-			if (pathFound2) {
-				System.out.println("Path to mirror: " + ce2.getPath());
-			} else {
-				System.out.println("No path to mirror pool found.");
-			}
-		} 
-		catch (FileNotFoundException e ) {
-			System.out.println("Can't find file " + fileName); 
-		}
-		catch (Exception e) {
-			System.out.println("Other error: " + e.getMessage());
-		}
-
-
-		 
-
-		
-		System.out.println("Finished CaveExplorer");
-	}
-
+            System.out.println(); // Space between test cases
+        }
+    }
 }
+
+	
